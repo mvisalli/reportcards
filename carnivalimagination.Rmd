@@ -8,7 +8,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 [MMSI: 309933000](https://www.marinetraffic.com/en/ais/details/ships/shipid:370651/mmsi:309933000/imo:9053878/vessel:CARNIVAL_IMAGINATION)  
-1 June 2019 - 2 June 2019  
+1-2 June 2019 
 [View Cruise Itinerary](http://crew-center.com/carnival-imagination-itinerary)
 
 ```{r, echo=FALSE, message=FALSE}
@@ -43,6 +43,32 @@ map_ci <- leaflet() %>%
                    label = ~sprintf("%f knots - %s",speed,datetime),
                    color=~pal_ci(speed))
 map_ci
+```
+
+### All SBARC AIS data off of LA and OC for 1-2 June 2019
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+sbais062019<-readRDS("data/sbais062019.RDS") %>% 
+  filter(lon >= -118.795374 & lon <= -117.707252,
+         lat >= 33.080975 & lat <= 33.680974)%>%
+  arrange(datetime) %>%
+  st_as_sf(coords=c("lon","lat"), crs = 4326)
+
+bins_ci <- c(0,10,11,12,15,20)
+
+pal_sbais062019 <- colorBin( "YlOrRd",
+                    domain= sbais062019$speed,
+                    bins = bins_ci,
+                    na.color = 'black')
+
+map_sbais062019 <- leaflet() %>%
+  addTiles() %>%
+  addCircleMarkers(data=sbais062019,
+                   radius = 0.5,
+                   label = ~sprintf("%f knots - %s %s",speed,datetime,name),
+                   color=~pal_sbais062019(speed))
+map_sbais062019
+
 ```
 
 
