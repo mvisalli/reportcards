@@ -1,4 +1,18 @@
-install.packages('devtools')
+---
+title: "Carnival Imagination: AIS Data June 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+[MMSI: 309933000](https://www.marinetraffic.com/en/ais/details/ships/shipid:370651/mmsi:309933000/imo:9053878/vessel:CARNIVAL_IMAGINATION)  
+1 June 2019 - 2 June 2019  
+[View Cruise Itinerary](http://crew-center.com/carnival-imagination-itinerary)
+
+```{r, echo=FALSE, message=FALSE}
+#install.packages('devtools')
 library(tidyverse)
 library(devtools)
 #devtools::install_github("mvisalli/shipr")
@@ -29,3 +43,6 @@ map_ci <- leaflet() %>%
                    label = ~sprintf("%f knots - %s",speed,datetime),
                    color=~pal_ci(speed))
 map_ci
+```
+
+
